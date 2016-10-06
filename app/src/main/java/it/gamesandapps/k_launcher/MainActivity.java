@@ -1,33 +1,42 @@
 package it.gamesandapps.k_launcher;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import it.gamesandapps.k_launcher.adapters.AppAdapter;
+import it.gamesandapps.k_launcher.objects.AppObj;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
+
+    ViewPager pager;
+    ArrayList<PageFragment> pages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        ListView lv = new ListView(this);
+        pages = new ArrayList<>();
+
+        pager = (ViewPager)findViewById(R.id.pager);
+
+
         ArrayList<AppObj> apps = new ArrayList<>();
 
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
@@ -43,29 +52,58 @@ public class MainActivity extends AppCompatActivity {
             apps.add(new AppObj(name,pkg,icon));
         }
 
+        /*
         Collections.sort(apps, new Comparator<AppObj>() {
             @Override
             public int compare(AppObj app1, AppObj app2) {
                 return app1.getName().compareTo(app2.getName());
             }
         });
+        */
 
-        final AppAdapter adapter = new AppAdapter(this, apps);
-        lv.setAdapter(adapter);
-        setContentView(lv);
+        int count = 0;
+        ArrayList<AppObj> pageApps = new ArrayList<>();
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+        for(AppObj a : apps){
+            pageApps.add(a);
 
-                Toast.makeText(MainActivity.this, adapter.getItem(pos).getPkg(), Toast.LENGTH_SHORT).show();
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(adapter.getItem(pos).getPkg());
-                if (launchIntent != null) {
-                    startActivity(launchIntent);
-                }
+            if(pageApps.size() >= 10 || count == apps.size()){
+
+                ArrayList<AppObj> pApps = new ArrayList<>();
+                pApps.addAll(pageApps);
+                pages.add(new PageFragment().create(pApps));
+                pageApps.clear();
 
             }
-        });
+            count++;
+        }
+
+        PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
+        pager.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(pager.getCurrentItem() > 0)
+            pager.setCurrentItem(pager.getCurrentItem()-1);
+    }
+
+    private class PageAdapter extends FragmentStatePagerAdapter {
+
+        public PageAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return pages.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return pages.size();
+        }
 
     }
 }
