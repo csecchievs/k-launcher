@@ -36,7 +36,7 @@
             android:excludeFromRecents="true"
             android:fitsSystemWindows="true"
             android:launchMode="singleTask"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:stateNotNeeded="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

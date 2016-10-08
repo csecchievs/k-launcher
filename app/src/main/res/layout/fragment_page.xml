@@ -1,22 +1,17 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="it.gamesandapps.k_launcher.PageFragment">
+    android:background="#11000000"
+    tools:context="it.gamesandapps.k_launcher.PageFragment"
+    android:padding="15sp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <GridView
-            android:id="@+id/appGrid"
-            android:gravity="center"
+        <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:numColumns="auto_fit"
-            android:columnWidth="120sp"
-            android:stretchMode="columnWidth"
-            android:layout_centerInParent="true" />
+            android:rowCount="5"
+            android:columnCount="4"
+            android:id="@+id/appGrid"
+            android:layout_centerHorizontal="true" />
 
-    </RelativeLayout>
-</FrameLayout>
+</RelativeLayout>

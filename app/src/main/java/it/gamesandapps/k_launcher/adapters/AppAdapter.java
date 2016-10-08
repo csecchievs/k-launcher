@@ -1,14 +1,16 @@
 package it.gamesandapps.k_launcher.adapters;
 
+import android.app.Activity;
 import android.content.Context;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 
+import it.gamesandapps.k_launcher.R;
 import it.gamesandapps.k_launcher.objects.AppObj;
 
 public class AppAdapter extends ArrayAdapter<AppObj> {
@@ -25,24 +27,31 @@ public class AppAdapter extends ArrayAdapter<AppObj> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        AppObj app = apps.get(position);
+        Holder holder;
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.CENTER;
-        LinearLayout root = new LinearLayout(ctx);
+        if(convertView==null) {
 
-        root.setLayoutParams(params);
-        root.setPadding(10,10,10,10);
-        TextView tv = new TextView(ctx);
-        tv.setGravity(Gravity.CENTER);
-        tv.setCompoundDrawablesRelativeWithIntrinsicBounds(app.getIcon(),null,null,null);
-        tv.setCompoundDrawablePadding(12);
-        tv.setTextSize(20);
-        tv.setText(app.getName());
+            LayoutInflater inflater = ((Activity)ctx).getLayoutInflater();
+            convertView = inflater.inflate(R.layout.app_item_layout, parent, false);
 
-        root.addView(tv);
+            holder = new Holder();
+            holder.tv_name = (TextView)convertView.findViewById(R.id.tv_app_name);
+            holder.iv_icon = (ImageView) convertView.findViewById(R.id.iv_app_icon);
 
-        return root;
+            if(apps!=null){
 
+                AppObj app = apps.get(position);
+                holder.iv_icon.setImageDrawable(app.getIcon());
+                holder.tv_name.setText(app.getName());
+            }
+
+        }
+
+        return convertView;
+    }
+
+    static class Holder {
+        TextView tv_name;
+        ImageView iv_icon;
     }
 }
