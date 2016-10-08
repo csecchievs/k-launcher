@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/iv_app_icon"
+        android:id="@+id/iv_app_icon_list"
         android:src="@mipmap/ic_launcher"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -24,7 +24,7 @@
         android:shadowDy="2"
         android:shadowRadius="4"
         android:id="@+id/tv_app_name"
-        android:layout_below="@+id/iv_app_icon"
+        android:layout_below="@+id/iv_app_icon_list"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:textAlignment="gravity"

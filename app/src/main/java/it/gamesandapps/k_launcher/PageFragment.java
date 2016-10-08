@@ -1,7 +1,5 @@
 package it.gamesandapps.k_launcher;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import it.gamesandapps.k_launcher.objects.AppObj;
+import it.gamesandapps.k_launcher.utils.Utils;
 
 public class PageFragment extends Fragment {
 
@@ -62,20 +61,20 @@ public class PageFragment extends Fragment {
             appview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    OpenApp(app);
+                    Utils.OpenApp(getActivity(),app);
                 }
             });
 
             appview.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    UnistallApp(app.getPkg());
-                    return false;
+                    Utils.UnistallApp(getActivity(), app.getPkg());
+                    return true;
                 }
             });
 
             TextView tv_name = (TextView) appview.findViewById(R.id.tv_app_name);
-            ImageView iv_icon = (ImageView) appview.findViewById(R.id.iv_app_icon);
+            ImageView iv_icon = (ImageView) appview.findViewById(R.id.iv_app_icon_list);
 
             tv_name.setText(app.getName());
             iv_icon.setImageDrawable(app.getIcon());
@@ -85,18 +84,6 @@ public class PageFragment extends Fragment {
 
 
         return root;
-    }
-
-    private void OpenApp(AppObj app) {
-        Intent i = getActivity().getPackageManager().getLaunchIntentForPackage(app.getPkg());
-        if(getActivity()!=null)
-            getActivity().startActivity(i);
-    }
-
-    private void UnistallApp(String pkg){
-        Uri packageURI = Uri.parse("package:" + pkg);
-        Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
-        startActivity(uninstallIntent);
     }
 
 }
