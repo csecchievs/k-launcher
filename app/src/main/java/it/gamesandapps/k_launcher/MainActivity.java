@@ -1,18 +1,25 @@
 package it.gamesandapps.k_launcher;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
+
 import com.eftimoff.viewpagertransformers.RotateDownTransformer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +30,7 @@ import it.gamesandapps.k_launcher.adapters.PageAdapter;
 import it.gamesandapps.k_launcher.objects.AppObj;
 import it.gamesandapps.k_launcher.utils.Utils;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
 
     ViewPager pager;
     ListView lvApps;
@@ -34,10 +41,8 @@ public class MainActivity extends FragmentActivity {
 
     AppAdapter adapter_list;
 
-    final static int VIEW_GRID = 1;
-    final static int VIEW_LIST = 2;
-
-    int view_type = VIEW_GRID;
+    int view_type = Utils.VIEW_GRID;
+    int view_grid = Utils.GRID_3x3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,10 @@ public class MainActivity extends FragmentActivity {
                     ReverseOrder(apps);
                 return true;
 
+            case R.id.action_grid_size:
+                ShowGridSelector();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -82,14 +91,14 @@ public class MainActivity extends FragmentActivity {
 
     private void SwitchLayout(){
         switch (view_type){
-            case VIEW_GRID:
+            case Utils.VIEW_GRID:
                 LoadLayoutGrid();
-                view_type = VIEW_LIST;
+                view_type = Utils.VIEW_LIST;
                 break;
 
-            case VIEW_LIST:
+            case Utils.VIEW_LIST:
                 LoadLayoutList();
-                view_type = VIEW_GRID;
+                view_type = Utils.VIEW_GRID;
                 break;
         }
     }
@@ -117,7 +126,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         AlphabOrder(apps);
-        LoadFragments();
+        LoadFragments(view_grid);
     }
 
     private void LoadLayoutList(){
@@ -142,7 +151,7 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-    private void LoadFragments(){
+    private void LoadFragments(int grid_dimension){
 
         if(pages!=null)
             if(!pages.isEmpty())
@@ -153,11 +162,11 @@ public class MainActivity extends FragmentActivity {
         for(AppObj a : apps){
             pageApps.add(a);
 
-            if(pageApps.size() >= 20 || count == apps.size()){
+            if(pageApps.size() >= grid_dimension || count == apps.size()){
 
                 ArrayList<AppObj> pApps = new ArrayList<>();
                 pApps.addAll(pageApps);
-                pages.add(new PageFragment().create(pApps));
+                pages.add(new PageFragment().create(pApps, grid_dimension));
                 pageApps.clear();
 
             }
@@ -183,13 +192,51 @@ public class MainActivity extends FragmentActivity {
         Collections.reverse(apps);
         switch (view_type){
 
-            case VIEW_GRID:
+            case Utils.VIEW_GRID:
                 adapter_list.notifyDataSetChanged();
                 break;
 
-            case VIEW_LIST:
-                LoadFragments();
+            case Utils.VIEW_LIST:
+                LoadFragments(view_grid);
                 break;
         }
+    }
+
+    private void ShowGridSelector(){
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.select_dialog_singlechoice);
+        adapter.add("3x3");
+        adapter.add("3x4");
+        adapter.add("4x4");
+        adapter.add("4x5");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Holo_Dialog_NoActionBar)
+                .setTitle("Select grid dimension")
+                .setIcon(android.R.drawable.ic_dialog_dialer)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int pos) {
+                        switch (pos){
+                            case 0:
+                                view_grid = Utils.GRID_3x3;
+                                break;
+                            case 1:
+                                view_grid = Utils.GRID_3x4;
+                                break;
+                            case 2:
+                                view_grid = Utils.GRID_4x4;
+                                break;
+                            case 3:
+                                view_grid = Utils.GRID_4x5;
+                                break;
+                        }
+
+                        LoadLayoutGrid();
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 }

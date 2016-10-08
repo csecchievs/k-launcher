@@ -8,11 +8,13 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style-->
 
-    <style name="AppTheme" parent="android:Theme.Holo.Light" >
+    <style name="AppTheme" parent="Theme.AppCompat" >
         <item name="android:actionBarStyle">@android:style/Widget.DeviceDefault.ActionBar</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowShowWallpaper">true</item>
     </style>
+
+    <style name="Dialog" parent="Theme.AppCompat" />
 
 </resources>

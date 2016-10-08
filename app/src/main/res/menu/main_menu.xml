@@ -13,4 +13,10 @@
         android:icon="@android:drawable/ic_menu_sort_by_size"
         app:showAsAction="collapseActionView"/>
 
+    <item
+        android:id="@+id/action_grid_size"
+        android:title="Grid Size"
+        android:icon="@android:drawable/ic_menu_today"
+        app:showAsAction="collapseActionView"/>
+
 </menu>

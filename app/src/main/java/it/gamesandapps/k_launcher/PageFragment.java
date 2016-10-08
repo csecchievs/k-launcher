@@ -17,11 +17,14 @@ import it.gamesandapps.k_launcher.utils.Utils;
 public class PageFragment extends Fragment {
 
     public static String APPS = "apps";
+    public static String GRID_DIMENSION = "grid_dimen";
     private ArrayList<AppObj> apps;
+    private int grid_imension;
     private GridLayout grid;
 
-    public static PageFragment create(ArrayList<AppObj> apps){
+    public static PageFragment create(ArrayList<AppObj> apps, int grid_imension){
         Bundle b = new Bundle();
+        b.putInt(GRID_DIMENSION, grid_imension);
         b.putParcelableArrayList(APPS, apps);
         PageFragment f = new PageFragment();
         f.setArguments(b);
@@ -36,6 +39,9 @@ public class PageFragment extends Fragment {
             if(b.containsKey(APPS)) {
                 this.apps = b.getParcelableArrayList(APPS);
             }
+            if(b.containsKey(GRID_DIMENSION)) {
+                this.grid_imension = b.getInt(GRID_DIMENSION);
+            }
         }
         super.onCreate(savedInstanceState);
 
@@ -46,6 +52,28 @@ public class PageFragment extends Fragment {
 
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_page, container, false);
         grid = (GridLayout)root.findViewById(R.id.appGrid);
+
+        switch(grid_imension){
+            case Utils.GRID_3x3:
+                grid.setColumnCount(3);
+                break;
+
+            case Utils.GRID_3x4:
+                grid.setColumnCount(3);
+                break;
+
+            case Utils.GRID_4x4:
+                grid.setColumnCount(4);
+                break;
+
+            case Utils.GRID_4x5:
+                grid.setColumnCount(4);
+                break;
+
+            case Utils.GRID_5x5:
+                grid.setColumnCount(5);
+                break;
+        }
 
         GridLayout.LayoutParams params = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {

@@ -12,6 +12,6 @@
             android:rowCount="5"
             android:columnCount="4"
             android:id="@+id/appGrid"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerInParent="true" />
 
 </RelativeLayout>
