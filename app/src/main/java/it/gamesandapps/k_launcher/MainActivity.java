@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -16,11 +15,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
-import com.eftimoff.viewpagertransformers.RotateDownTransformer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,6 +25,7 @@ import java.util.List;
 import it.gamesandapps.k_launcher.adapters.AppAdapter;
 import it.gamesandapps.k_launcher.adapters.PageAdapter;
 import it.gamesandapps.k_launcher.objects.AppObj;
+import it.gamesandapps.k_launcher.controllers.SlideController;
 import it.gamesandapps.k_launcher.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,7 +40,10 @@ public class MainActivity extends AppCompatActivity {
     AppAdapter adapter_list;
 
     int view_type = Utils.VIEW_GRID;
-    int view_grid = Utils.GRID_3x3;
+    int view_grid = Utils.GRID_4x5;
+
+    SlideController slideController;
+    ViewPager.PageTransformer selectedEffect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         if(getActionBar()!=null) getActionBar().setTitle("");
         super.onCreate(savedInstanceState);
 
+        slideController = new SlideController();
+        selectedEffect = slideController.getEffect(SlideController.DEFAULT);
         SwitchLayout();
     }
 
@@ -84,12 +87,17 @@ public class MainActivity extends AppCompatActivity {
                 ShowGridSelector();
                 return true;
 
+            case R.id.action_slide_effects:
+                ShowSlideSelector();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     private void SwitchLayout(){
+
         switch (view_type){
             case Utils.VIEW_GRID:
                 LoadLayoutGrid();
@@ -105,11 +113,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void LoadLayoutGrid(){
         setContentView(R.layout.activity_main_grid);
+
         pages = new ArrayList<>();
-
         pager = (ViewPager)findViewById(R.id.pager);
-        pager.setPageTransformer(false, new RotateDownTransformer());
-
+        pager.setPageTransformer(false, selectedEffect);
         apps = new ArrayList<>();
 
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
@@ -204,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void ShowGridSelector(){
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.select_dialog_singlechoice);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_single_choice);
         adapter.add("3x3");
         adapter.add("3x4");
         adapter.add("4x4");
@@ -232,6 +239,33 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         LoadLayoutGrid();
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
+    private void ShowSlideSelector(){
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_single_choice);
+        adapter.addAll(slideController.getEffectsNames());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Holo_Dialog_NoActionBar)
+                .setTitle("Select slide effect")
+                .setIcon(android.R.drawable.ic_dialog_dialer)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int pos) {
+
+                        /*if(pager!=null)
+                            pager.setPageTransformer(false, slideController.getEffect(pos));
+                        LoadLayoutGrid();*/
+
+                        selectedEffect = slideController.getEffect(adapter.getItem(pos));
+                        LoadLayoutGrid();
+
                     }
                 });
 
