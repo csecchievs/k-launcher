@@ -16,6 +16,7 @@ public class Utils {
     public final static int GRID_4x4 = 16;
     public final static int GRID_4x5 = 20;
     public final static int GRID_5x5 = 25;
+    public final static String GOOGLE_KEY = "AIzaSyAojtpWyj1kE8DgpuzNGYAKOnDtarD9C0I";
 
     public static void OpenApp(Context ctx, AppObj app) {
         Intent i = ctx.getPackageManager().getLaunchIntentForPackage(app.getPkg());

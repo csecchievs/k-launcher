@@ -1,8 +1,6 @@
 package it.gamesandapps.k_launcher.controllers;
 
-import android.content.Context;
 import android.support.v4.view.ViewPager;
-
 import com.eftimoff.viewpagertransformers.AccordionTransformer;
 import com.eftimoff.viewpagertransformers.BackgroundToForegroundTransformer;
 import com.eftimoff.viewpagertransformers.CubeInTransformer;
@@ -14,11 +12,13 @@ import com.eftimoff.viewpagertransformers.FlipVerticalTransformer;
 import com.eftimoff.viewpagertransformers.ForegroundToBackgroundTransformer;
 import com.eftimoff.viewpagertransformers.RotateDownTransformer;
 import com.eftimoff.viewpagertransformers.RotateUpTransformer;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+
+import it.gamesandapps.k_launcher.slideseffects.CubeInCustomTransformer;
+import it.gamesandapps.k_launcher.slideseffects.Custom1;
 
 public class SlideController {
 
@@ -35,14 +35,14 @@ public class SlideController {
     public static String ACCORDION = "Accordion";
     public static String BG_TO_FG = "Back to front";
     public static String FG_TO_BG = "Front to back";
-
+    public static String NEW = "new";
 
     public SlideController() {
 
         this.slideEffects = new HashMap<>();
 
         slideEffects.put(DEFAULT,   new DefaultTransformer());
-        slideEffects.put(CUBE_IN,   new CubeInTransformer());
+        slideEffects.put(CUBE_IN,   new CubeInCustomTransformer());
         slideEffects.put(CUBE_OUT,  new CubeOutTransformer());
         slideEffects.put(CUBE_OUT,  new CubeOutTransformer());
         slideEffects.put(ROTATE_DOWN,  new RotateDownTransformer());
@@ -53,6 +53,7 @@ public class SlideController {
         slideEffects.put(ACCORDION,  new AccordionTransformer());
         slideEffects.put(BG_TO_FG,  new BackgroundToForegroundTransformer());
         slideEffects.put(FG_TO_BG,  new ForegroundToBackgroundTransformer());
+        slideEffects.put(NEW,  new Custom1());
 
     }
 

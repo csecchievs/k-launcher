@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 import it.gamesandapps.k_launcher.objects.AppObj;
@@ -75,12 +76,8 @@ public class PageFragment extends Fragment {
                 break;
         }
 
-        GridLayout.LayoutParams params = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            params = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1f),GridLayout.spec(GridLayout.UNDEFINED, 1f));
-            params.setGravity(Gravity.CENTER);
-            params.setMargins(10,10,10,10);
-        }
+        int height = getActivity().getWindow().getDecorView().getHeight();
+        int width = getActivity().getWindow().getDecorView().getWidth();
 
         for(final AppObj app : apps){
 

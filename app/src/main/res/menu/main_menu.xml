@@ -3,26 +3,26 @@
 
     <item
         android:id="@+id/action_order"
-        android:icon="@android:drawable/ic_menu_sort_alphabetically"
+        android:icon="@mipmap/ic_menu_az"
         android:title="Sort"
-        app:showAsAction="collapseActionView"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_view_type"
         android:title="Grid / List"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
-        app:showAsAction="collapseActionView"/>
+        android:icon="@mipmap/ic_menu_grid"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_grid_size"
         android:title="Grid Size"
         android:icon="@android:drawable/ic_menu_today"
-        app:showAsAction="collapseActionView"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_slide_effects"
         android:title="Slide Effects"
         android:icon="@android:drawable/ic_menu_set_as"
-        app:showAsAction="collapseActionView"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>

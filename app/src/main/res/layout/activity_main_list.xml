@@ -10,7 +10,8 @@
         android:id="@+id/lvApps"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@android:color/transparent"
-        android:layout_margin="10sp" />
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="40sp"
+        android:divider="@android:color/transparent" />
 
 </RelativeLayout>

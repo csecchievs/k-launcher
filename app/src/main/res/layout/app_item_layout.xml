@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_weight="1"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="54sp"
+        android:layout_height="54sp"
         android:id="@+id/iv_app_icon_list"
         android:src="@mipmap/ic_launcher"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="5sp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:padding="5sp" />
 
     <TextView
-        android:layout_width="85sp"
-        android:layout_height="35sp"
+        android:layout_width="65sp"
+        android:layout_height="32sp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Name"
         android:shadowColor="#222"
@@ -26,7 +26,7 @@
         android:id="@+id/tv_app_name"
         android:layout_below="@+id/iv_app_icon_list"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="fill_horizontal"
         android:textAlignment="gravity"
         android:textColor="#fff"
         android:gravity="top|center_horizontal" />
